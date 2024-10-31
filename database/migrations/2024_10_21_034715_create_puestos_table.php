@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_del_puesto');
 
-            $table->integer('created_by');
+            $table->integer('created_by') ->nullable();
             $table->integer('updated_by')->nullable();
             $table->integer('deleted_by')->nullable();
-            $table->timestamps();
+            $table->timestamps(); 
             $table->softDeletes();
         });
     }

@@ -1,0 +1,17 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CategoriasController;
+
+Route::get('/categoria', [CategoriasController::class, 'esdras']);
+
+Route::get('/categoria/{id}', [CategoriasController::class, 'show']);
+
+Route::post('/categoria', [CategoriasController::class, 'create']);
+
+Route::put('/categoria/{id}', [CategoriasController::class, 'update']);
+
+
+Route::delete('/categoria/{id}', [CategoriasController::class, 'delete']);
+

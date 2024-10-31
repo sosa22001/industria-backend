@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_categoria');
-            $table->integer(column: 'created_by');
-            $table->integer(column: 'updated_by')->nullable();
-            $table->boolean(column: 'deleted_by')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
+            $table->boolean('deleted_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('telefono');
             $table->boolean('estado');
             $table->string('direccion');
-            $table->integer('created_by');
+            $table->integer('created_by') ->nullable();
             $table->integer('updated_by')->nullable();
             $table->integer('deleted_by')->nullable();
             $table->timestamps();

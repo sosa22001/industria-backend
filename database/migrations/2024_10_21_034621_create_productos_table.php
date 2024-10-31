@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('id_proveedor');
 
-            $table->integer('created_by');
+            $table->integer('created_by') ->nullable();
             $table->integer('updated_by')->nullable();
             $table->integer('deleted_by')->nullable();
             $table->timestamps();

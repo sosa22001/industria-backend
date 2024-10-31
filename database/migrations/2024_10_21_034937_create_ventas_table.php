@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_producto');
             $table->unsignedBigInteger('id_empleado');
 
-            $table->integer('created_by');
+            $table->integer('created_by') ->nullable();
             $table->integer('updated_by')->nullable();
             $table->integer('deleted_by')->nullable();
             $table->timestamps();
