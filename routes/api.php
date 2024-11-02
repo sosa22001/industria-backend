@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CategoriasController;
+use App\Http\Controllers\Api\ProveedoresController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Api\AuthuserController;
 
@@ -19,7 +20,7 @@ Route::post('/login', [AuthuserController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/logout', [AuthuserController::class, 'logout']);
-    
+
 });
 
 
@@ -35,4 +36,9 @@ Route::put('/categoria/{id}', [CategoriasController::class, 'update']);
 
 
 Route::delete('/categoria/{id}', [CategoriasController::class, 'delete']);
+
+
+// rutas de proveedores
+
+Route::post('/proveedor', [ProveedoresController::class, 'create']);
 
