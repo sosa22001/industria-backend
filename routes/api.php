@@ -15,6 +15,14 @@ Route::post('/register', [AuthuserController::class, 'register']);
 Route::post('/login', [AuthuserController::class, 'login']);
 
 
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/logout', [AuthuserController::class, 'logout']);
+    
+});
+
+
 // rutas de categorias
 
 Route::get('/categoria', [CategoriasController::class, 'esdras']);
