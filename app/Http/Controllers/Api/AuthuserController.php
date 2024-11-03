@@ -13,6 +13,7 @@ use \stdClass;
 
 class AuthuserController extends Controller
 {
+    // Registro de usuario
     public function register(Request $request)
 {
     $validator = Validator::make($request->all(), [
@@ -39,6 +40,7 @@ class AuthuserController extends Controller
     ], 201); // Cambié a 201 para indicar que se creó un recurso
 }
 
+    // Inicio de sesión
     public function login(Request $request)
     {
         if (!Auth::attempt($request->only('email', 'password'))) 
@@ -60,6 +62,8 @@ class AuthuserController extends Controller
             ], 200);
     }
 
+    // Cierre de sesión
+
     public function logout()
     {
         auth()->user()->Tokens()->delete();
@@ -67,5 +71,18 @@ class AuthuserController extends Controller
         return[
             'message' => 'Has cerrado sesión exitosamente y el token se eliminó exitosamente'
         ];
+    }
+
+    // Listar usuarios
+
+    public function index()
+    {
+        return User::all();
+    }
+
+    // Mostrar usuario por id
+    public function show($id)
+    {
+        return User::find($id);
     }
 }

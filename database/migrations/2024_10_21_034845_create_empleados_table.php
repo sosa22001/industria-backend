@@ -26,7 +26,7 @@ return new class extends Migration
             $table->date('fecha_nacimiento')->nullable();
             $table->date('fecha_ingreso')->nullable();
             $table->string('rtn')->nullable();
-            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_user')->nullable();
 
 
             $table->integer('created_by') ->nullable();

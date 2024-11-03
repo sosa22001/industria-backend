@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 
 class CategoriasController extends Controller
 {
-    public function esdras()
+
+    // Método para obtener todas las categorías
+    public function index()
     {
     $categorias = Categoria::all();
 
