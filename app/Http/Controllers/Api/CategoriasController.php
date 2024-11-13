@@ -27,12 +27,14 @@ class CategoriasController extends Controller
     {
     // Validar que 'nombre_categoria' es requerido y no vacío
     $request->validate([
-        'nombre_categoria' => 'required|string|max:255'
+        'nombre_categoria' => 'required|string|max:255',
+        'descripcion_categoria' => 'required|string|max:255'
     ]);
 
     // Intentar crear una nueva categoría usando el modelo
     $categoria = Categoria::create([
         'nombre_categoria' => $request->nombre_categoria,
+        'descripcion_categoria' => $request->descripcion_categoria,
         
     ]);
 
@@ -94,6 +96,7 @@ class CategoriasController extends Controller
         return response()->json($data, 200);
     }
 
+    // Método para actualizar una categoría
     public function update(Request $request, $id)
     {
         $categoria = Categoria::find($id);
@@ -107,7 +110,8 @@ class CategoriasController extends Controller
         }
 
         $request->validate([
-            'nombre_categoria' => 'required|string|max:255'
+            'nombre_categoria' => 'required|string|max:255',
+            'descripcion_categoria' => 'required|string|max:255'
         ]);
 
         $categoria->nombre_categoria = $request->nombre_categoria;
@@ -123,5 +127,6 @@ class CategoriasController extends Controller
 
     
 }
+
 
 

@@ -10,6 +10,6 @@ class Categoria extends Model // Cambiar el nombre de la clase a singular
     use HasFactory;
 
     protected $table = 'categorias';
-    protected $fillable = ['nombre_categoria'];
+    protected $fillable = ['nombre_categoria','descripcion_categoria']; // Agregar los campos que se pueden llenar
 }
 

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_producto');
+            $table->integer('stock');
             $table->unsignedBigInteger('id_categoria');
             $table->decimal('precio_compra', 10, 2);
             $table->decimal('precio_venta', 10, 2);

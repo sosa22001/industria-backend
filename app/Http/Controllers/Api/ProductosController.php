@@ -32,6 +32,7 @@ class ProductosController extends Controller
         // Validar los datos de entrada
         $validatedData = $request->validate([
             'nombre_producto' => 'required|string|max:255',
+            'stock' => 'required|integer|min:0',
             'id_categoria' => 'required|exists:categorias,id',
             'precio_compra' => 'required|numeric|min:0',
             'precio_venta' => 'required|numeric|min:0',
@@ -87,6 +88,7 @@ class ProductosController extends Controller
         // Validar los datos de entrada
         $validatedData = $request->validate([
             'nombre_producto' => 'required|string|max:255',
+            'stock' => 'required|integer|min:0',
             'id_categoria' => 'required|exists:categorias,id',
             'precio_compra' => 'required|numeric|min:0',
             'precio_venta' => 'required|numeric|min:0',
