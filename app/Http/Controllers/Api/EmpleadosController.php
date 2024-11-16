@@ -12,17 +12,40 @@ class EmpleadosController extends Controller
 
     public function index()
     {
-        // Obtener todos los empleados
-        $empleados = Empleado::all();
-
+        // Obtener todos los empleados con su puesto relacionado
+        $empleados = Empleado::with('puesto')->get();
+    
         // Verificar si la colección está vacía
         if ($empleados->isEmpty()) {
             return response()->json(['message' => 'No hay empleados registrados'], 404);
         }
-
-        // Retornar la lista de empleados
-        return response()->json($empleados, 200);
+    
+        // Mapear la respuesta para incluir todos los campos solicitados
+        $empleadosConPuesto = $empleados->map(function ($empleado) {
+            return [
+                'id' => $empleado->id,
+                'dni_empleado' => $empleado->dni_empleado,
+                'primer_nombre' => $empleado->primer_nombre,
+                'segundo_nombre' => $empleado->segundo_nombre,
+                'primer_apellido' => $empleado->primer_apellido,
+                'segundo_apellido' => $empleado->segundo_apellido,
+                'puesto' => $empleado->puesto ? $empleado->puesto->nombre_del_puesto : 'No asignado', // Si el puesto no está asignado
+                'estado' => $empleado->estado,
+                'direccion' => $empleado->direccion,
+                'email' => $empleado->email,
+                'telefono' => $empleado->telefono,
+                'fecha_nacimiento' => $empleado->fecha_nacimiento,
+                'fecha_ingreso' => $empleado->fecha_ingreso,
+                'rtn' => $empleado->rtn,
+                'usuario' => $empleado->usuario ? $empleado->usuario->name : 'No asignado',
+            ];
+        });
+    
+        // Retornar los datos con todos los campos solicitados
+        return response()->json($empleadosConPuesto, 200);
     }
+    
+
 
     // Método para crear un nuevo empleado
 
