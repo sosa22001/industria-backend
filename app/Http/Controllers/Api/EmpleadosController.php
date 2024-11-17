@@ -45,49 +45,71 @@ class EmpleadosController extends Controller
         return response()->json($empleadosConPuesto, 200);
     }
     
+    //-----------------------------------------------------------------------------------------------
 
-
-    // Método para crear un nuevo empleado
 
 
     public function create(Request $request)
     {
-        // Validar los datos de entrada
-        $validatedData = $request->validate([
-            'dni_empleado' => 'required|string|max:255|unique:empleados,dni_empleado',
-            'primer_nombre' => 'required|string|max:255',
-            'segundo_nombre' => 'nullable|string|max:255',
-            'primer_apellido' => 'required|string|max:255',
-            'segundo_apellido' => 'nullable|string|max:255',
-            'id_puesto' => 'required|exists:puestos,id',
-            'estado' => 'required|boolean',
-            'direccion' => 'required|string|max:255',
-            'email' => 'required|email|unique:empleados,email',
-            'telefono' => 'required|string|max:20',
-            'fecha_nacimiento' => 'required|date',
-            'fecha_ingreso' => 'required|date',
-            'rtn' => 'required|string|max:50',
-            'id_user' => 'required|exists:users,id',
-        ]);
-
-        // Asignar el usuario autenticado al campo created_by si corresponde
-        // Esto supone que estás usando autenticación
-        $validatedData['created_by'] = auth()->id();
-
-        // Crear el empleado
-        $empleado = Empleado::create($validatedData);
-
-        // Verificar si el empleado fue creado exitosamente
-        if ($empleado) {
-            // Retornar la respuesta con el empleado creado y código 201
-            return response()->json($empleado, 201);
-        } else {
-            // Retornar un mensaje de error si la creación falla
+        try {
+            // Validar los datos de entrada
+            $validatedData = $request->validate([
+                'dni_empleado' => 'required|string|max:255|unique:empleados,dni_empleado',
+                'primer_nombre' => 'required|string|max:255',
+                'segundo_nombre' => 'nullable|string|max:255',
+                'primer_apellido' => 'required|string|max:255',
+                'segundo_apellido' => 'nullable|string|max:255',
+                'id_puesto' => 'required|exists:puestos,id',
+                'estado' => 'required|boolean',
+                'direccion' => 'required|string|max:255',
+                'email' => 'required|email|unique:empleados,email',
+                'telefono' => 'required|string|max:20',
+                'fecha_nacimiento' => 'required|date',
+                'fecha_ingreso' => 'required|date',
+                'rtn' => 'required|string|max:50',
+                'id_user' => 'required|exists:users,id',
+            ]);
+    
+            // Asignar el usuario autenticado al campo created_by, si está autenticado
+            $validatedData['created_by'] = auth()->check() ? auth()->id() : null;
+    
+            // Crear el empleado
+            $empleado = Empleado::create($validatedData);
+    
+            // Retornar la respuesta con el empleado creado
             return response()->json([
-                'message' => 'No se pudo crear el empleado. Inténtalo de nuevo más tarde.'
-            ], 500); // Código 500 para error interno del servidor
+                'success' => true,
+                'message' => 'Empleado creado exitosamente.',
+                'data' => $empleado,
+            ], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Manejo de errores de validación
+            return response()->json([
+                'success' => false,
+                'message' => 'Errores de validación.',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            // Manejo de otros errores
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al crear el empleado.',
+                'error' => $e->getMessage(), // O puedes omitir este detalle en producción
+            ], 500);
         }
     }
+    
+
+
+
+
+
+
+
+ //-----------------------------------------------------------------------------------------
+ 
+ //-----------------------------------------------------------
+
 
     // Método para obtener un empleado por su ID
 
