@@ -11,27 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('productos', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre_producto');
-            $table->integer('stock');
-            $table->unsignedBigInteger('id_categoria');
-            $table->decimal('precio_compra', 10, 2);
-            $table->decimal('precio_venta', 10, 2);
-            $table->boolean('estado');
-            $table->string('codigo')->unique();
-            $table->text('descripcion')->nullable();
-            $table->unsignedBigInteger('id_proveedor');
-
-            $table->integer('created_by') ->nullable();
-            $table->integer('updated_by')->nullable();
-            $table->integer('deleted_by')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('id_categoria')->references('id')->on('categorias')->onDelete('restrict');
-            $table->foreign('id_proveedor')->references('id')->on('proveedores')->onDelete('restrict');
-        });
+        if (!Schema::hasTable('productos')) {
+            Schema::create('productos', function (Blueprint $table) {
+                $table->id();
+                $table->string('nombre_producto');
+                $table->integer('stock');
+                $table->unsignedBigInteger('id_categoria');
+                $table->decimal('precio_compra', 10, 2);
+                $table->decimal('precio_venta', 10, 2);
+                $table->boolean('estado');
+                $table->string('codigo')->unique();
+                $table->text('descripcion')->nullable();
+                $table->unsignedBigInteger('id_proveedor');
+    
+                $table->integer('created_by') ->nullable();
+                $table->integer('updated_by')->nullable();
+                $table->integer('deleted_by')->nullable();
+                $table->timestamps();
+                $table->softDeletes();
+    
+                $table->foreign('id_categoria')->references('id')->on('categorias')->onDelete('restrict');
+                $table->foreign('id_proveedor')->references('id')->on('proveedores')->onDelete('restrict');
+            });
+        }
+        
     }
 
     /**

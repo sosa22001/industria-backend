@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categorias', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre_categoria');
-            $table->string('descripcion_categoria');
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
-            $table->boolean('deleted_by')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Verifica si la tabla no existe antes de crearla
+        if (!Schema::hasTable('categorias')) {
+            Schema::create('categorias', function (Blueprint $table) {
+                $table->id();
+                $table->string('nombre_categoria');
+                $table->string('descripcion_categoria');
+                $table->integer('created_by')->nullable();
+                $table->integer('updated_by')->nullable();
+                $table->boolean('deleted_by')->nullable();
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**
