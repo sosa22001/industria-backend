@@ -123,3 +123,5 @@ Route::delete('/empleados/{id}', [EmpleadosController::class, 'delete']);
 // Rutas de Ventas
 
 Route::get('/ventas', [VentasController::class, 'index']);
+
+Route::post('/ventas', [VentasController::class, 'store']);
