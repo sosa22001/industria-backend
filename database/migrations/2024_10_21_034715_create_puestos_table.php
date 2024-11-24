@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('puestos', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre_del_puesto');
-
-            $table->integer('created_by') ->nullable();
-            $table->integer('updated_by')->nullable();
-            $table->integer('deleted_by')->nullable();
-            $table->timestamps(); 
-            $table->softDeletes();
-        });
+        if (!Schema::hasTable('puestos')) {
+            Schema::create('puestos', function (Blueprint $table) {
+                $table->id();
+                $table->string('nombre_del_puesto');
+    
+                $table->integer('created_by') ->nullable();
+                $table->integer('updated_by')->nullable();
+                $table->integer('deleted_by')->nullable();
+                $table->timestamps(); 
+                $table->softDeletes();
+            });
+        }
+        
     }
 
     /**

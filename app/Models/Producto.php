@@ -20,7 +20,10 @@ class Producto extends Model
         'estado', 
         'codigo', 
         'descripcion', 
-        'id_proveedor'
+        'id_proveedor',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     // Relación con la categoría

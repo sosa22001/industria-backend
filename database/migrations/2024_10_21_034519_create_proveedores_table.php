@@ -11,20 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proveedores', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre_proveedor');
-            $table->string('email')->unique();
-            $table->string('telefono');
-            $table->boolean('estado');
-            $table->string('direccion');
-            $table->integer('created_by') ->nullable();
-            $table->integer('updated_by')->nullable();
-            $table->integer('deleted_by')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Verificar si la tabla no existe antes de crearla
+        if (!Schema::hasTable('proveedores')) {
+            Schema::create('proveedores', function (Blueprint $table) {
+                $table->id();
+                $table->string('nombre_proveedor');
+                $table->string('email');
+                $table->string('telefono');
+                $table->boolean('estado');
+                $table->string('direccion');
+                $table->integer('created_by')->nullable();
+                $table->integer('updated_by')->nullable();
+                $table->integer('deleted_by')->nullable();
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
+
     /**
      * Reverse the migrations.
      */
@@ -33,3 +37,4 @@ return new class extends Migration
         Schema::dropIfExists('proveedores');
     }
 };
+

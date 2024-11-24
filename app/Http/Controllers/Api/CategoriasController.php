@@ -115,6 +115,7 @@ class CategoriasController extends Controller
         ]);
 
         $categoria->nombre_categoria = $request->nombre_categoria;
+        $categoria->descripcion_categoria = $request->descripcion_categoria;
         $categoria->save();
 
         $data = [
