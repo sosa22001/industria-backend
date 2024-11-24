@@ -95,20 +95,29 @@ class ProductosController extends Controller
     }
 
     // Método para obtener un producto por su ID    
-    public function show($id)
-    {
-        // Buscar un producto por su ID
-        $producto = Producto::find($id);
+    public function show($search)
+{
+    // Buscar el producto por ID, nombre_producto o código
+    $producto = Producto::where('id', $search)
+        ->orWhere('nombre_producto', 'like', "%$search%")
+        ->orWhere('codigo', 'like', "%$search%")
+        ->first();
 
-        // Verificar si el producto existe
-        if ($producto) {
-            // Retornar el producto encontrado
-            return response()->json($producto, 200);
-        } else {
-            // Retornar un mensaje de error si el producto no se encuentra
-            return response()->json(['message' => 'Producto no encontrado'], 404);
-        }
+    // Verificar si el producto existe
+    if ($producto) {
+        // Retornar el producto encontrado
+        return response()->json([
+            'status' => 'success',
+            'data' => $producto,
+        ], 200);
+    } else {
+        // Retornar un mensaje de error si el producto no se encuentra
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Producto no encontrado',
+        ], 404);
     }
+}
 
     // Método para actualizar un producto por su ID
 

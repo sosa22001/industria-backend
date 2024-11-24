@@ -26,7 +26,7 @@ class VentasController extends Controller
                 'isv' => 'required|numeric|min:0',
                 'descuento' => 'required|numeric|min:0',
                 'total' => 'required|numeric|min:0',
-                'id_empleado' => 'required|exists:empleados,id',
+                'id_empleado' => 'nullable|exists:empleados,id', // Ahora opcional
             ]);
             \Log::info('Datos validados correctamente');
 
@@ -37,7 +37,7 @@ class VentasController extends Controller
                 'isv' => $request->isv,
                 'descuento' => $request->descuento,
                 'total' => $request->total,
-                'id_empleado' => $request->id_empleado,
+                'id_empleado' => $request->id_empleado, // Puede ser null
                 'created_by' => auth()->id(),
             ]);
             \Log::info('Venta creada exitosamente', $venta->toArray());
@@ -95,5 +95,38 @@ class VentasController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    // Método para obtener todas las ventas con los productos vendidos con su cantidad y precio unitario pero que me muestre el nombre del producto
+
+    public function index()
+    {
+        // Obtener todas las ventas con los detalles de productos
+        $ventas = Venta::with('detalles.producto')->get();
+
+        // Transformar los datos para mostrar solo lo necesario
+        $ventasConDetalles = $ventas->map(function ($venta) {
+            return [
+                'id' => $venta->id,
+                'fecha_venta' => $venta->fecha_venta,
+                'id_empleado' => $venta->id_empleado,
+                'subtotal' => $venta->subtotal,
+                'isv' => $venta->isv,
+                'descuento' => $venta->descuento,
+                'total' => $venta->total,
+                'created_by' => $venta->created_by,
+                'detalles' => $venta->detalles->map(function ($detalle) {
+                    return [
+                        'producto' => $detalle->producto->nombre_producto,
+                        'cantidad' => $detalle->cantidad,
+                        'precio_unitario' => $detalle->precio_unitario,
+                        'subtotal' => $detalle->subtotal,
+                    ];
+                }),
+            ];
+        });
+
+        // Retornar las ventas con los detalles de productos
+        return response()->json($ventasConDetalles, 200);
     }
 }
