@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\EmpleadosController;
 use App\Http\Controllers\Api\VentasController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Api\AuthuserController;
+use App\Http\Controllers\FichaInventarioController;
+use App\Http\Controllers\FichaProductoController;
 
                                                                                                                                            /*
 ||  ---------------------------------------------------------------------------------------------------------------||
@@ -125,3 +127,24 @@ Route::delete('/empleados/{id}', [EmpleadosController::class, 'delete']);
 Route::get('/ventas', [VentasController::class, 'index']);
 
 Route::post('/ventas', [VentasController::class, 'store']);
+
+//Rutas de Ficha de inventario:
+
+Route::get('/fichas-inventario', [FichaInventarioController::class, 'index']);
+Route::post('/fichas-inventario', [FichaInventarioController::class, 'store']);
+Route::get('/fichas-inventario/{id}', [FichaInventarioController::class, 'show']);
+Route::put('/fichas-inventario/{id}', [FichaInventarioController::class, 'update']);
+Route::delete('/fichas-inventario/{id}', [FichaInventarioController::class, 'destroy']);
+
+// Ruta para obtener las fichas de inventario pendientes
+Route::get('/fichas-pendientes-de-inventario', [FichaInventarioController::class, 'pendientes']);
+Route::put('/fichaInventario/{id}/verificar-pedido', [FichaInventarioController::class, 'verificarFicha']);
+Route::put('/ficha-inventario-recibido/{id}', [FichaInventarioController::class, 'verificarARecibido']);
+Route::put('/ficha-inventario-procesado/{id}', [FichaInventarioController::class, 'cambiarAProcesado']);
+Route::put('/ficha-ingentario-procesar-devolucion/{id}', [FichaInventarioController::class, 'devolverProducto']);
+
+
+//Rutas de ficha de produto:
+Route::get('/ficha-producto', [FichaProductoController::class, 'index']);
+Route::post('/ficha-producto', [FichaProductoController::class, 'store']);
+Route::get('/ficha-producto/{id}', [FichaProductoController::class, 'show']);
