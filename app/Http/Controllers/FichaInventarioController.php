@@ -337,7 +337,7 @@ class FichaInventarioController extends Controller
 
         } catch (\Throwable $th) {
             return response()->json([
-                'message'=> $th->getMessage,
+                'message'=> $th->getMessage(),
                 'codigoResultado' => 0
             ]);
         }

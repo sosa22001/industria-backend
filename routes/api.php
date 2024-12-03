@@ -78,7 +78,6 @@ Route::put('/proveedores/{id}', [ProveedoresController::class, 'update']);
 
 Route::delete('/proveedores/{id}', [ProveedoresController::class, 'delete']);
 
-
 //----------------------------------------------------------------------------------------------------------------------------
 // rutas de productos
 
@@ -92,6 +91,8 @@ Route::put('/productos/{id}', [ProductosController::class, 'update']);
 
 Route::delete('/productos/{id}', [ProductosController::class, 'delete']);
 
+//obtener productos por proveedor.
+Route::get('/productos/proveedor/{idProveedor}', [ProductosController::class,'buscarProductosPorProveedor']);
 
 //----------------------------------------------------------------------------------------------------------------------------
 // Rutas de Puestos
@@ -138,8 +139,12 @@ Route::delete('/fichas-inventario/{id}', [FichaInventarioController::class, 'des
 
 // Ruta para obtener las fichas de inventario pendientes
 Route::get('/fichas-pendientes-de-inventario', [FichaInventarioController::class, 'pendientes']);
+
 Route::put('/fichaInventario/{id}/verificar-pedido', [FichaInventarioController::class, 'verificarFicha']);
-Route::put('/ficha-inventario-recibido/{id}', [FichaInventarioController::class, 'verificarARecibido']);
+
+//NO LA VOY A USAR.
+//Route::put('/ficha-inventario-recibido/{id}', [FichaInventarioController::class, 'verificarARecibido']);
+
 Route::put('/ficha-inventario-procesado/{id}', [FichaInventarioController::class, 'cambiarAProcesado']);
 Route::put('/ficha-ingentario-procesar-devolucion/{id}', [FichaInventarioController::class, 'devolverProducto']);
 
@@ -148,3 +153,4 @@ Route::put('/ficha-ingentario-procesar-devolucion/{id}', [FichaInventarioControl
 Route::get('/ficha-producto', [FichaProductoController::class, 'index']);
 Route::post('/ficha-producto', [FichaProductoController::class, 'store']);
 Route::get('/ficha-producto/{id}', [FichaProductoController::class, 'show']);
+Route::get('/ficha-producto-inventario/{id_inventario}', [FichaProductoController::class, 'obtenerFichasPorIDInventario']);

@@ -11,44 +11,44 @@ class ProductosController extends Controller
     // Método para obtener todos los productos
 
     public function index()
-{
-    // Obtener todos los productos con las relaciones de categoría y proveedor
-    $productos = Producto::with(['categoria', 'proveedor'])->get();
+    {
+        // Obtener todos los productos con las relaciones de categoría y proveedor
+        $productos = Producto::with(['categoria', 'proveedor'])->get();
 
-    // Verificar si la colección está vacía
-    if ($productos->isEmpty()) {
-        return response()->json(['message' => 'No hay productos registrados'], 404);
+        // Verificar si la colección está vacía
+        if ($productos->isEmpty()) {
+            return response()->json(['message' => 'No hay productos registrados'], 404);
+        }
+
+        // Mapear la respuesta para incluir los nombres de categoría y proveedor
+        $productosConDetalles = $productos->map(function ($producto) {
+            return [
+                'id' => $producto->id,
+                'nombre_producto' => $producto->nombre_producto,
+                'stock' => $producto->stock,
+                'categoria' => $producto->categoria ? $producto->categoria->nombre_categoria : 'No asignado', // Nombre de la categoría
+                'proveedor' => $producto->proveedor ? $producto->proveedor->nombre_proveedor : 'No asignado', // Nombre del proveedor
+                'precio_compra' => $producto->precio_compra,
+                'precio_venta' => $producto->precio_venta,
+                'estado' => $producto->estado,
+                'codigo' => $producto->codigo,
+                'descripcion' => $producto->descripcion,
+                'crated_at' => $producto->created_at,
+                'updated_at' => $producto->updated_at,
+                'deleted_at' => $producto->deleted_at,
+            ];
+        });
+
+        // Retornar los productos con los detalles de categoría y proveedor
+        return response()->json($productosConDetalles, 200);
     }
 
-    // Mapear la respuesta para incluir los nombres de categoría y proveedor
-    $productosConDetalles = $productos->map(function ($producto) {
-        return [
-            'id' => $producto->id,
-            'nombre_producto' => $producto->nombre_producto,
-            'stock' => $producto->stock,
-            'categoria' => $producto->categoria ? $producto->categoria->nombre_categoria : 'No asignado', // Nombre de la categoría
-            'proveedor' => $producto->proveedor ? $producto->proveedor->nombre_proveedor : 'No asignado', // Nombre del proveedor
-            'precio_compra' => $producto->precio_compra,
-            'precio_venta' => $producto->precio_venta,
-            'estado' => $producto->estado,
-            'codigo' => $producto->codigo,
-            'descripcion' => $producto->descripcion,
-            'crated_at' => $producto->created_at,
-            'updated_at' => $producto->updated_at,
-            'deleted_at' => $producto->deleted_at,
-        ];
-    });
-
-    // Retornar los productos con los detalles de categoría y proveedor
-    return response()->json($productosConDetalles, 200);
-}
 
 
 
 
 
-
- //-------------------------------------------------------------------------------------------   
+    //-------------------------------------------------------------------------------------------   
 
     // Método para crear un nuevo producto
 
@@ -67,10 +67,10 @@ class ProductosController extends Controller
                 'descripcion' => 'nullable|string',
                 'id_proveedor' => 'required|exists:proveedores,id',
             ]);
-    
+
             // Crear el producto usando el modelo Producto
             $producto = Producto::create($validatedData);
-    
+
             // Verificar si el producto fue creado exitosamente
             if ($producto) {
                 // Retornar la respuesta con el producto creado y código 201
@@ -96,28 +96,28 @@ class ProductosController extends Controller
 
     // Método para obtener un producto por su ID    
     public function show($search)
-{
-    // Buscar el producto por ID, nombre_producto o código
-    $producto = Producto::where('id', $search)
-        ->orWhere('nombre_producto', 'like', "%$search%")
-        ->orWhere('codigo', 'like', "%$search%")
-        ->first();
+    {
+        // Buscar el producto por ID, nombre_producto o código
+        $producto = Producto::where('id', $search)
+            ->orWhere('nombre_producto', 'like', "%$search%")
+            ->orWhere('codigo', 'like', "%$search%")
+            ->first();
 
-    // Verificar si el producto existe
-    if ($producto) {
-        // Retornar el producto encontrado
-        return response()->json([
-            'status' => 'success',
-            'data' => $producto,
-        ], 200);
-    } else {
-        // Retornar un mensaje de error si el producto no se encuentra
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Producto no encontrado',
-        ], 404);
+        // Verificar si el producto existe
+        if ($producto) {
+            // Retornar el producto encontrado
+            return response()->json([
+                'status' => 'success',
+                'data' => $producto,
+            ], 200);
+        } else {
+            // Retornar un mensaje de error si el producto no se encuentra
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Producto no encontrado',
+            ], 404);
+        }
     }
-}
 
     // Método para actualizar un producto por su ID
 
@@ -168,5 +168,19 @@ class ProductosController extends Controller
 
         // Retornar un mensaje de éxito
         return response()->json(['message' => 'Producto eliminado correctamente'], 200);
+    }
+
+    //Método para traer productos por id de proveedor.
+    public function buscarProductosPorProveedor($idProveedor)
+    {
+        // Obtener productos por el ID del proveedor
+        $productos = Producto::where('id_proveedor', $idProveedor)->get();
+
+        // Verificar si se encontraron productos
+        if ($productos->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron productos para este proveedor'], 404);
+        }
+
+        return response()->json($productos, 200);
     }
 }

@@ -65,4 +65,28 @@ class FichaProductoController extends Controller
 
         return response()->json($ficha_producto);
     }
+
+    public function obtenerFichasPorIDInventario($id_inventario, Request $request)
+    {
+        try {
+            $fichas_productos = FichaProducto::where('ficha_inventario_id', $id_inventario)->get();
+
+            if ($fichas_productos->count() > 0) {
+                return response()->json([
+                    'message' => 'Fichas de productos encontradas',
+                    'data' => $fichas_productos,
+                    'codigoResultado' => 1
+                ]);
+            }
+
+            return response()->json([
+                'message' => 'No hay fichas de productos para esta ficha de inventario',
+                'codigoResultado' => 0
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message'=> $th->getMessage(),
+            ]);
+        }
+    }
 }
