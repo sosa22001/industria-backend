@@ -24,32 +24,41 @@ class FichaProductoController extends Controller
      * Store a newly created FichaProducto.
      */
     public function store(Request $request)
-    {
-        // Validar la entrada
-        $validated = $request->validate([
-            'ficha_inventario_id' => 'required|exists:fichas_inventario,id',
-            'producto_id' => 'required|exists:productos,id',
-            'cantidad' => 'required|integer|min:1',
-            'precio_compra' => 'required|numeric|min:0',
-            'lote' => 'required|string|max:255',
-            'fecha_vencimiento' => 'required|date',
-        ]);
+{
+    // Validar la entrada
+    $validated = $request->validate([
+        'ficha_inventario_id' => 'required|exists:fichas_inventario,id',
+        'productos' => 'required|array|min:1',
+        'productos.*.producto_id' => 'required|exists:productos,id',
+        'productos.*.cantidad' => 'required|integer|min:1',
+        'productos.*.precio_compra' => 'required|numeric|min:0',
+        'productos.*.lote' => 'required|string|max:255',
+        'productos.*.fecha_vencimiento' => 'required|date',
+    ]);
 
-        // Crear la ficha de producto
-        $ficha_producto = FichaProducto::create([
-            'ficha_inventario_id' => $validated['ficha_inventario_id'],
-            'producto_id' => $validated['producto_id'],
-            'cantidad' => $validated['cantidad'],
-            'precio_compra' => $validated['precio_compra'],
-            'lote' => $validated['lote'],
-            'fecha_vencimiento' => $validated['fecha_vencimiento'],
-        ]);
+    $ficha_inventario_id = $validated['ficha_inventario_id'];
+    $productos = $validated['productos'];
 
-        return response()->json([
-            'message' => 'Ficha de producto creada exitosamente.',
-            'ficha_producto' => $ficha_producto
-        ], 201);
+    $fichas_productos = [];
+
+    // Crear cada ficha de producto
+    foreach ($productos as $producto) {
+        $fichas_productos[] = FichaProducto::create([
+            'ficha_inventario_id' => $ficha_inventario_id,
+            'producto_id' => $producto['producto_id'],
+            'cantidad' => $producto['cantidad'],
+            'precio_compra' => $producto['precio_compra'],
+            'lote' => $producto['lote'],
+            'fecha_vencimiento' => $producto['fecha_vencimiento'],
+        ]);
     }
+
+    return response()->json([
+        'message' => 'Fichas de producto creadas exitosamente.',
+        'fichas_productos' => $fichas_productos
+    ], 201);
+}
+
 
     /**
      * Display the specified FichaProducto.
