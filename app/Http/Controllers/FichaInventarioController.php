@@ -271,7 +271,7 @@ class FichaInventarioController extends Controller
 
             //El id es de la ficha de inventario.
             $ficha = FichaInventario::find($id);
-
+            $ficha->fecha_cambio_estado = now();
             if( !$request->productos_correctos){
                 $ficha->estado = 'rechazado';
                 $ficha->comentarios = 'Los productos fueron incorrectos';
@@ -345,6 +345,9 @@ class FichaInventarioController extends Controller
 
     public function devolverProducto($id, Request $request){
         try {
+            //Mi idea es traer los productos que pertenezcan a un mismo lote o al menos
+            //saber que productos son los que debo devolver.
+            //porque son los productos anteriormente comprados.
 
             $ficha_inventario = FichaInventario::find( $id );
             if( $ficha_inventario == null ){
@@ -364,6 +367,8 @@ class FichaInventarioController extends Controller
             }
 
             foreach($fichas_producto as $ficha_producto){
+                $ficha_producto->devuelto = 1;
+                $ficha_producto->save();
                 //buscamos el producto
                 $producto = Producto::find( $ficha_producto->producto_id );
 

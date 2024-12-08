@@ -12,7 +12,7 @@ class FichaProducto extends Model
     protected $table = 'ficha_producto';
 
     protected $fillable = [
-        'ficha_inventario_id', 'producto_id', 'cantidad', 'precio_compra', 'lote', 'fecha_vencimiento'
+        'ficha_inventario_id', 'producto_id', 'cantidad', 'precio_compra', 'lote', 'devuelto'
     ];
 
     public function fichaInventario()

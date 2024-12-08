@@ -146,7 +146,7 @@ Route::put('/fichaInventario/{id}/verificar-pedido', [FichaInventarioController:
 //Route::put('/ficha-inventario-recibido/{id}', [FichaInventarioController::class, 'verificarARecibido']);
 
 Route::put('/ficha-inventario-procesado/{id}', [FichaInventarioController::class, 'cambiarAProcesado']);
-Route::put('/ficha-ingentario-procesar-devolucion/{id}', [FichaInventarioController::class, 'devolverProducto']);
+Route::put('/ficha-inventario-procesar-devolucion/{id}', [FichaInventarioController::class, 'devolverProducto']);
 
 
 //Rutas de ficha de produto:
@@ -154,3 +154,6 @@ Route::get('/ficha-producto', [FichaProductoController::class, 'index']);
 Route::post('/ficha-producto', [FichaProductoController::class, 'store']);
 Route::get('/ficha-producto/{id}', [FichaProductoController::class, 'show']);
 Route::get('/ficha-producto-inventario/{id_inventario}', [FichaProductoController::class, 'obtenerFichasPorIDInventario']);
+
+//OCUPO TRAER LOS PRODUCTOS DE LAS FICHAS DE PRODUCTO POR LOTE, PARA DEVOLVERLOS.
+Route::get('/fichas-producto-procesadas/{idProveedor}/para-devolver', [FichaProductoController::class,'obtenerFichasProductosProcesadas']);

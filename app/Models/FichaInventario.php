@@ -12,7 +12,7 @@ class FichaInventario extends Model
     protected $table = 'fichas_inventario';
 
     protected $fillable = [
-        'proveedor_id', 'tipo_movimiento', 'estado', 'fecha_pedido', 'fecha_recepcion', 'comentarios'
+        'proveedor_id', 'tipo_movimiento', 'estado', 'fecha_pedido', 'fecha_recepcion', 'comentarios', 'fecha_cambio_estado'
     ];
 
     public function proveedor()
