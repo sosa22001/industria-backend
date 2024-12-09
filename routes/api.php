@@ -46,26 +46,23 @@ Route::get('/register/{id}', [AuthuserController::class, 'show']);
 
 
 // rutas de autenticacion
-Route::middleware('auth:sanctum')->group(function () {
-
-    Route::get('/logout', [AuthuserController::class, 'logout']);
-
-});
-
 //----------------------------------------------------------------------------------------------------------------------------
 // rutas de categorias
 
-Route::get('/categoria', [CategoriasController::class, 'index']);
+Route::middleware(['auth:sanctum'])->group(function () {
 
-Route::get('/categoria/{id}', [CategoriasController::class, 'show']);
+    // Rutas accesibles solo por usuarios con el rol 'Admin'
+    Route::middleware(['role:Admin'])->group(function () {
+        Route::get('/categoria', [CategoriasController::class, 'index']);
+        Route::post('/categoria', [CategoriasController::class, 'create']);
+        Route::put('/categoria/{id}', [CategoriasController::class, 'update']);
+        Route::delete('/categoria/{id}', [CategoriasController::class, 'delete']);
+    });
 
-Route::post('/categoria', [CategoriasController::class, 'create']);
+    Route::get('/logout', [AuthuserController::class, 'logout']);
+    //
 
-Route::put('/categoria/{id}', [CategoriasController::class, 'update']);
-
-
-Route::delete('/categoria/{id}', [CategoriasController::class, 'delete']);
-
+});
 //----------------------------------------------------------------------------------------------------------------------------
 // rutas de proveedores
 Route::get('/proveedores', [ProveedoresController::class, 'index']);

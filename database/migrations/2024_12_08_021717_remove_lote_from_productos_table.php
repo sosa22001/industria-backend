@@ -9,14 +9,19 @@ return new class extends Migration
     public function up()
     {
         Schema::table('productos', function (Blueprint $table) {
-            $table->dropColumn('lote');
+            if (Schema::hasColumn('productos', 'lote')) {
+                $table->dropColumn('lote'); // Eliminar la columna solo si existe
+            }
         });
     }
 
     public function down()
     {
         Schema::table('productos', function (Blueprint $table) {
-            $table->string('lote')->nullable(); // Agregar la columna de nuevo si se revierte la migración
+            if (!Schema::hasColumn('productos', 'lote')) {
+                $table->string('lote')->nullable(); // Agregar la columna de nuevo si se revierte la migración
+            }
         });
     }
 };
+
