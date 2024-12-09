@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
             ProductoSeeder::class,
             PuestoSeeder::class,
             EmpleadoSeeder::class,
+            RoleAndPermissionSeeder::class,
             
         ]);
     }
