@@ -47,6 +47,8 @@ Route::get('/register/{id}', [AuthuserController::class, 'show']);
 
 // rutas de autenticacion
 //----------------------------------------------------------------------------------------------------------------------------
+
+Route::post('/usuarios/{id}/asignar-rol', [AuthuserController::class, 'asignarRol']);
 // rutas de categorias
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -57,6 +59,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/categoria', [CategoriasController::class, 'create']);
         Route::put('/categoria/{id}', [CategoriasController::class, 'update']);
         Route::delete('/categoria/{id}', [CategoriasController::class, 'delete']);
+
+     
     });
 
     Route::get('/logout', [AuthuserController::class, 'logout']);
