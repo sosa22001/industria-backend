@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DetalleVentasController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CategoriasController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Api\AuthuserController;
 use App\Http\Controllers\FichaInventarioController;
 use App\Http\Controllers\FichaProductoController;
+use App\Models\DetalleVenta;
 
                                                                                                                                            /*
 ||  ---------------------------------------------------------------------------------------------------------------||
@@ -129,6 +131,9 @@ Route::delete('/empleados/{id}', [EmpleadosController::class, 'delete']);
 Route::get('/ventas', [VentasController::class, 'index']);
 
 Route::post('/ventas', [VentasController::class, 'store']);
+
+Route::get('/detalle-ventas', [DetalleVentasController::class, 'index']);
+Route::get('/detalle-ventas/3-productos-mas-vendidos', [DetalleVentasController::class,'topProductos']);
 
 //Rutas de Ficha de inventario:
 

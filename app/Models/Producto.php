@@ -12,14 +12,14 @@ class Producto extends Model
 
     protected $table = 'productos';
     protected $fillable = [
-        'nombre_producto', 
+        'nombre_producto',
         'stock',
-        'id_categoria', 
-        'precio_compra', 
-        'precio_venta', 
-        'estado', 
-        'codigo', 
-        'descripcion', 
+        'id_categoria',
+        'precio_compra',
+        'precio_venta',
+        'estado',
+        'codigo',
+        'descripcion',
         'id_proveedor',
         'created_at',
         'updated_at',
@@ -32,6 +32,12 @@ class Producto extends Model
         return $this->belongsTo(Categoria::class, 'id_categoria');
     }
 
+    // Relación con DetalleVenta
+    public function detallesVentas()
+    {
+        return $this->hasMany(DetalleVenta::class, 'producto_id');
+    }
+
     // Relación con el proveedor
     public function proveedor()
     {
@@ -42,9 +48,8 @@ class Producto extends Model
     protected function estado(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => (bool) $value,
-            set: fn ($value) => $value ? 1 : 0
+            get: fn($value) => (bool) $value,
+            set: fn($value) => $value ? 1 : 0
         );
     }
 }
-
