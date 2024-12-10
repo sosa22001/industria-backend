@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use App\Models\Categoria;
 
 class ProductosController extends Controller
 {
@@ -182,5 +183,23 @@ class ProductosController extends Controller
         }
 
         return response()->json($productos, 200);
+    }
+
+    public function cantidadDeProductosPorCategoria()
+    {
+        try {
+            $productosPorCategoria = Categoria::withCount('productos')->get();
+
+            $data = $productosPorCategoria->map(function ($categoria) {
+                return [
+                    'categoria' => $categoria->nombre_categoria, // Cambia 'nombre' por el campo de tu tabla categorías
+                    'cantidad' => $categoria->productos_count,
+                ];
+            });
+
+            return response()->json($data);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
     }
 }

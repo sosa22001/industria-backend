@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Asegúrate de importar HasFactory
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model // Cambiar el nombre de la clase a singular
+class Categoria extends Model
 {
     use HasFactory;
 
-    protected $table = 'categorias';
-    protected $fillable = ['nombre_categoria','descripcion_categoria']; // Agregar los campos que se pueden llenar
-}
+    protected $table = 'categorias'; // Nombre de la tabla en plural
+    protected $fillable = ['nombre_categoria', 'descripcion_categoria']; // Campos rellenables
 
+    // Relación: una categoría tiene muchos productos
+    public function productos()
+    {
+        return $this->hasMany(Producto::class, 'id_categoria', 'id');
+    }
+}

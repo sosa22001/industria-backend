@@ -158,3 +158,6 @@ Route::get('/ficha-producto-inventario/{id_inventario}', [FichaProductoControlle
 
 //OCUPO TRAER LOS PRODUCTOS DE LAS FICHAS DE PRODUCTO POR LOTE, PARA DEVOLVERLOS.
 Route::get('/fichas-producto-procesadas/{idProveedor}/para-devolver', [FichaProductoController::class,'obtenerFichasProductosProcesadas']);
+
+//Rutas para traer la cantidad de productos por categoria.
+Route::get('/cantidad-productos-categoria', [ProductosController::class, 'cantidadDeProductosPorCategoria']);
