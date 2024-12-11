@@ -46,6 +46,10 @@ Route::get('/register', [AuthuserController::class, 'index']);
 
 Route::get('/register/{id}', [AuthuserController::class, 'show']);
 
+Route::put('/register/{id}', [AuthuserController::class, 'update']);
+
+Route::delete('/register/{id}', [AuthuserController::class, 'delete']);
+
 
 // rutas de autenticacion
 //----------------------------------------------------------------------------------------------------------------------------

@@ -44,6 +44,40 @@ class AuthuserController extends Controller
     ], 201); // Cambié a 201 para indicar que se creó un recurso
 }
 
+
+
+//------------------------------------------------------------------------------------------------------------
+
+// Actualizar usuario
+
+public function update(Request $request, $id)
+{
+    $user = User::find($id);
+    if (!$user) {
+        return response()->json(['error' => 'Usuario no encontrado.'], 404);
+    }
+
+    $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'password' => 'required|min:6',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()], 400);
+    }
+
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return response()->json([
+        'message' => 'Usuario actualizado correctamente.',
+        'data' => $user,
+    ], 200);
+}
+
 //------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
