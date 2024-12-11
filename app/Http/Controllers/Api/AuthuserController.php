@@ -79,6 +79,23 @@ public function update(Request $request, $id)
 }
 
 //------------------------------------------------------------------------------------------------------------
+
+// Eliminar usuario 
+
+public function destroy($id)
+{
+    $user = User::find($id);
+    if (!$user) {
+        return response()->json(['error' => 'Usuario no encontrado.'], 404);
+    }
+
+    $user->delete();
+
+    return response()->json([
+        'message' => 'Usuario eliminado correctamente.',
+    ], 200);
+}
+
 //------------------------------------------------------------------------------------------------------------
 
     // Inicio de sesión
