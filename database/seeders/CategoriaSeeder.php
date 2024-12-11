@@ -44,8 +44,7 @@ class CategoriaSeeder extends Seeder
             ],
         ]);
 
-        // 10 registros automáticos
-        Categoria::factory(10)->create();
+      
     }
 }
 

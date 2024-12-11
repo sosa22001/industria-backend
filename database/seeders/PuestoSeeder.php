@@ -20,7 +20,7 @@ class PuestoSeeder extends Seeder
         ]);
 
         // 10 registros automáticos
-        Puesto::factory(10)->create();
+       
     }
 }
 

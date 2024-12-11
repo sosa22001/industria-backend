@@ -218,7 +218,7 @@ class ProductoSeeder extends Seeder
         ]);
 
         // 10 registros automáticos
-        Producto::factory(10)->create();
+        
     }
 }
 

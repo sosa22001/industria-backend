@@ -50,7 +50,7 @@ class ProveedorSeeder extends Seeder
         ]);
 
         // 10 registros automáticos
-        Proveedor::factory(10)->create();
+       
     }
 }
 
