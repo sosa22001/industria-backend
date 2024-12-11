@@ -69,7 +69,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //
 
 });
-//----------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+    Route::get('/categoria', [CategoriasController::class, 'index']);
+        Route::post('/categoria', [CategoriasController::class, 'create']);
+        Route::put('/categoria/{id}', [CategoriasController::class, 'update']);
+        Route::delete('/categoria/{id}', [CategoriasController::class, 'delete']);
 // rutas de proveedores
 Route::get('/proveedores', [ProveedoresController::class, 'index']);
 

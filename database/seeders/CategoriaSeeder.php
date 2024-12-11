@@ -13,7 +13,7 @@ class CategoriaSeeder extends Seeder
         // 5 registros manuales
         DB::table('categorias')->insert([
             [
-                'nombre_categoria' => 'Electrónica',
+                'nombre_categoria' => 'Granos Básicos',
                 'descripcion_categoria' => 'Dispositivos electrónicos y accesorios',
                 'created_by' => 1,
                 'updated_by' => null,
@@ -31,7 +31,7 @@ class CategoriaSeeder extends Seeder
                 'updated_by' => null,
             ],
             [
-                'nombre_categoria' => 'Deportes',
+                'nombre_categoria' => 'Carne',
                 'descripcion_categoria' => 'Equipo y ropa deportiva',
                 'created_by' => 2,
                 'updated_by' => null,
@@ -44,8 +44,7 @@ class CategoriaSeeder extends Seeder
             ],
         ]);
 
-        // 10 registros automáticos
-        Categoria::factory(10)->create();
+      
     }
 }
 
