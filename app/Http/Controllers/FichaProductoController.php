@@ -76,7 +76,10 @@ class FichaProductoController extends Controller
     public function obtenerFichasPorIDInventario($id_inventario, Request $request)
     {
         try {
-            $fichas_productos = FichaProducto::where('ficha_inventario_id', $id_inventario)->get();
+            // Incluimos la relación con el producto
+            $fichas_productos = FichaProducto::with('producto') // Relación definida en el modelo
+                ->where('ficha_inventario_id', $id_inventario)
+                ->get();
 
             if ($fichas_productos->count() > 0) {
                 return response()->json([
@@ -97,6 +100,7 @@ class FichaProductoController extends Controller
         }
     }
 
+
     //QUIERO OBTENER LAS FICHAS DE PRODUCTOS
     //CUYA FICHA DE INVENTARIO YA FUE PROCESADA.
     //PARA PROCEDER A DEVOLVERLA.
@@ -105,8 +109,8 @@ class FichaProductoController extends Controller
         try {
             // Obtener las fichas de inventario cuyo estado es PROCESADO
             $fichas_inventario = FichaInventario::where('estado', 'procesado')
-            ->where('proveedor_id', $idProveedor) // Filtrar por el proveedor
-            ->get();
+                ->where('proveedor_id', $idProveedor) // Filtrar por el proveedor
+                ->get();
 
             // Verificar si no hay fichas procesadas
             if ($fichas_inventario->count() == 0) {
@@ -120,9 +124,11 @@ class FichaProductoController extends Controller
             $fichas_inventario_ids = $fichas_inventario->pluck('id');
 
             // Buscar las fichas de productos asociadas a esas fichas de inventario
-            $fichas_productos = FichaProducto::whereIn('ficha_inventario_id', $fichas_inventario_ids)
-            ->where('devuelto', 0) // Agregar el filtro adicional
-            ->get();
+            // e incluir el producto relacionado
+            $fichas_productos = FichaProducto::with('producto') // Incluir relación producto
+                ->whereIn('ficha_inventario_id', $fichas_inventario_ids)
+                ->where('devuelto', 0) // Agregar el filtro adicional
+                ->get();
 
             // Si no se encuentran productos asociados
             if ($fichas_productos->count() == 0) {
