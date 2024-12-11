@@ -129,4 +129,12 @@ class VentasController extends Controller
         // Retornar las ventas con los detalles de productos
         return response()->json($ventasConDetalles, 200);
     }
+
+    public function obtenerTodasLasVentasConDetalle()
+    {
+        // Recuperamos todas las ventas junto con sus detalles
+        $ventas = Venta::with(['detalles.producto'])->get();
+
+        return response()->json($ventas);
+    }
 }

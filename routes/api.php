@@ -135,6 +135,8 @@ Route::post('/ventas', [VentasController::class, 'store']);
 Route::get('/detalle-ventas', [DetalleVentasController::class, 'index']);
 Route::get('/detalle-ventas/3-productos-mas-vendidos', [DetalleVentasController::class,'topProductos']);
 
+Route::get('/ventas-detalles', [VentasController::class, 'obtenerTodasLasVentasConDetalle']);
+
 //Rutas de Ficha de inventario:
 
 Route::get('/fichas-inventario', [FichaInventarioController::class, 'index']);
